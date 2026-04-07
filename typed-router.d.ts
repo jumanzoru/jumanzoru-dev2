@@ -65,16 +65,9 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/collective-sponsor-onetime': RouteRecordInfo<
-      '/collective-sponsor-onetime',
-      '/collective-sponsor-onetime',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/demos': RouteRecordInfo<
-      '/demos',
-      '/demos',
+    '/experience': RouteRecordInfo<
+      '/experience',
+      '/experience',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -716,13 +709,6 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/sponsors-list': RouteRecordInfo<
-      '/sponsors-list',
-      '/sponsors-list',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
     '/streams': RouteRecordInfo<
       '/streams',
       '/streams',
@@ -793,15 +779,9 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'pages/collective-sponsor-onetime.md': {
+    'pages/experience.md': {
       routes:
-        | '/collective-sponsor-onetime'
-      views:
-        | never
-    }
-    'pages/demos.md': {
-      routes:
-        | '/demos'
+        | '/experience'
       views:
         | never
     }
@@ -1348,12 +1328,6 @@ declare module 'vue-router/auto-routes' {
     'pages/projects.md': {
       routes:
         | '/projects'
-      views:
-        | never
-    }
-    'pages/sponsors-list.md': {
-      routes:
-        | '/sponsors-list'
       views:
         | never
     }

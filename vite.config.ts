@@ -2,7 +2,6 @@ import { Buffer } from 'node:buffer'
 import { basename, dirname, resolve } from 'node:path'
 import MarkdownItShiki from '@shikijs/markdown-it'
 import { transformerNotationDiff, transformerNotationHighlight, transformerNotationWordHighlight } from '@shikijs/transformers'
-import { rendererRich, transformerTwoslash } from '@shikijs/twoslash'
 import Vue from '@vitejs/plugin-vue'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
@@ -84,6 +83,13 @@ export default defineConfig({
         quotes: '""\'\'',
       },
       async markdownItSetup(md) {
+        // Workaround: in some Node.js versions, `localStorage` can exist but not implement the Web Storage API.
+        // `@typescript/vfs` (used by Twoslash) expects `localStorage.getItem` to exist when `localStorage` is defined.
+        if (typeof (globalThis as any).localStorage !== 'undefined' && typeof (globalThis as any).localStorage?.getItem !== 'function')
+          (globalThis as any).localStorage = undefined
+
+        const { rendererRich, transformerTwoslash } = await import('@shikijs/twoslash')
+
         md.use(await MarkdownItShiki({
           themes: {
             dark: 'vitesse-dark',
@@ -126,6 +132,14 @@ export default defineConfig({
 
         md.use(MarkdownItMagicLink, {
           linksMap: {
+            'Google': { link: 'https://about.google', imageUrl: 'https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png' },
+            'BASTA': { link: 'https://www.linkedin.com/search/results/companies/?keywords=BASTA', imageUrl: '/logos/basta.png' },
+            'NextHelper': { link: 'https://www.linkedin.com/search/results/companies/?keywords=NextHelper', imageUrl: '/logos/nexthelper.png' },
+            'UC San Diego': { link: 'https://ucsd.edu', imageUrl: '/logos/ucsd.png' },
+            'UC San Diego (University Orgs)': { link: 'https://ucsd.edu', imageUrl: '/logos/ucsd.png' },
+            'UCSD CSE': { link: 'https://ucsd.edu', imageUrl: '/logos/ucsd-cse.png' },
+            'Rosas Demolition': { link: 'https://rosasdemolitionandson.com', imageUrl: '/logos/rosas.png' },
+            'Big Strategy Labs': { link: 'https://www.linkedin.com/search/results/companies/?keywords=Big%20Strategy%20Labs', imageUrl: '/logos/bsl.png' },
             'NuxtLabs': { link: 'https://nuxtlabs.com', imageUrl: 'https://nuxtlabs.com/nuxt.png' },
             'Vitest': 'https://github.com/vitest-dev/vitest',
             'Slidev': 'https://github.com/slidevjs/slidev',

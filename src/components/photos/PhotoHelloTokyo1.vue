@@ -8,7 +8,9 @@ const photos: Photo[] = [
   'p-2018-02-03-14-21-24-000-1',
   'p-2018-01-27-08-05-30-000-1',
   'p-2018-02-02-08-26-27-000-1',
-].map(name => raw.find(p => p.url.includes(name))!)
+]
+  .map(name => raw.find(p => p.url.includes(name)))
+  .filter((p): p is Photo => Boolean(p))
 </script>
 
 <template>
