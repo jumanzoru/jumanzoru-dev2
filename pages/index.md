@@ -1,7 +1,7 @@
 ---
 title: Jefferson Umanzor
 description: Jefferson Umanzor's Portfolio
-image: https://antfu.me/og.png
+# image: https://jumanzoru.com/public/logos/juma.png
 art: random
 ---
 

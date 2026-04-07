@@ -16,6 +16,29 @@ const items = computed(() =>
 
 const getYear = (a: string) => new Date(a).getFullYear()
 const isSameYear = (a?: string, b?: string) => a && b && getYear(a) === getYear(b)
+
+function getCompanyLogos(company: string) {
+  const logos: string[] = []
+
+  if (company.includes('Google '))
+    logos.push('https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png')
+  if (company.includes('BASTA'))
+    logos.push('/logos/basta.png')
+  if (company.includes('Big Strategy Labs'))
+    logos.push('/logos/bsl.png')
+  if (company.includes('Triton Software Engineering'))
+    logos.push('/logos/tse.png')
+  if (company.includes('NextHelper'))
+    logos.push('/logos/nexthelper.png')
+  if (company.includes('CSE Department'))
+    logos.push('/logos/ucsd-cse.png')
+  if (company.includes('Muir College Council') || company.includes('UCSD'))
+    logos.push('/logos/ucsd.png')
+  if (company.includes('Rosas Demolition'))
+    logos.push('/logos/rosas.png')
+
+  return logos
+}
 </script>
 
 <template>
@@ -46,16 +69,28 @@ const isSameYear = (a?: string, b?: string) => a && b && getYear(a) === getYear(
         }"
       >
         <li class="no-underline mb-8 mt-2">
-          <div flex="~ col md:row gap-2 md:items-center">
-            <div class="title text-lg leading-1.2em" flex="~ gap-2 wrap">
-              <span align-middle font-semibold>{{ entry.company }}</span>
-              <span op50>·</span>
-              <span align-middle>{{ entry.role }}</span>
+          <div grid="~ cols-[1fr_auto]" gap="x-6 y-1" items-baseline>
+            <div class="title text-lg leading-1.2em" font-semibold flex="~ items-center gap-2">
+              <span flex="~ items-center gap-1" aria-hidden="true">
+                <span
+                  v-for="logo in getCompanyLogos(entry.company)"
+                  :key="logo"
+                  class="markdown-magic-link-image"
+                  :style="{ backgroundImage: `url('${logo}')` }"
+                />
+              </span>
+              <span>{{ entry.company }}</span>
             </div>
-            <div flex="~ gap-2 items-center">
-              <span text-sm op50 ws-nowrap>{{ formatRange(entry) }}</span>
-              <span v-if="entry.location" text-sm op40 ws-nowrap>· {{ entry.location }}</span>
+            <div text-sm op50 ws-nowrap text-right>
+              {{ formatRange(entry) }}
             </div>
+            <div op80>
+              {{ entry.role }}
+            </div>
+            <div v-if="entry.location" text-sm op40 ws-nowrap text-right>
+              {{ entry.location }}
+            </div>
+            <div v-else />
           </div>
           <ul v-if="entry.highlights?.length" class="mt-3 pl-5 op90">
             <li v-for="(h, hidx) in entry.highlights" :key="hidx" class="mb-2">
